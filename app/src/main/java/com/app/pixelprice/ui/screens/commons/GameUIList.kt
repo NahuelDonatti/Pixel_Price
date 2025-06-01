@@ -7,10 +7,14 @@ import androidx.compose.ui.Modifier
 import com.app.pixelprice.data.Game
 
 @Composable
-fun GameUIList(list: List<Game>, modifier: Modifier = Modifier) {
+fun GameUIList(list: List<Game>,
+               modifier: Modifier = Modifier,
+               onItemClick: (String) -> Unit
+) {
     LazyColumn(modifier = modifier) {
         items(list) { game ->
-            GameUIItem(game)
+            GameUIItem(game,
+                onItemClick = onItemClick)
         }
     }
 }

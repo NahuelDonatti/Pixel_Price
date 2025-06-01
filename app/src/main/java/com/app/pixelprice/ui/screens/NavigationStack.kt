@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.app.pixelprice.ui.screens.gamedetail.GameDetailScreen
 import com.app.pixelprice.ui.screens.gamelist.GameListScreen
 import com.app.pixelprice.ui.screens.splash.SplashScreen
 
@@ -20,10 +21,11 @@ fun NavigationStack() {
         }
 
         composable(route = Screens.GameList.route) {
-            GameListScreen()
+            GameListScreen(navController = navController)
         }
-        composable(route = Screens.GameDetail.route) {
-            //GameDetailScreen()
+        composable(route = Screens.GameDetail.route + "/{gameID}") { it ->
+            var gameID = it.arguments?.getString("gameID")
+            GameDetailScreen(gameID ?: "0")
         }
     }
 }

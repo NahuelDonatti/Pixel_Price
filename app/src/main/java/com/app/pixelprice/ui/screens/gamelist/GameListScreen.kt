@@ -1,5 +1,6 @@
 package com.app.pixelprice.ui.screens.gamelist
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -15,16 +16,25 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
+import com.app.pixelprice.ui.screens.Screens
 import com.app.pixelprice.ui.screens.commons.GameUIList
-import com.app.pixelprice.ui.theme.PixelPriceTheme
+
+private const val TAG = "GameListDebug"
+
+
 
 @Composable
-fun GameListScreen(modifier: Modifier = Modifier, vm: GameListScreenViewModel = viewModel()){
+fun GameListScreen(modifier: Modifier = Modifier,
+                   vm: GameListScreenViewModel = viewModel(),
+                   navController: NavHostController){
+
     Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp)
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
     ) {
         Text(
             text = "Listado de juegos",
@@ -53,7 +63,15 @@ fun GameListScreen(modifier: Modifier = Modifier, vm: GameListScreenViewModel = 
             }
         }
         Spacer(modifier = Modifier.height(12.dp))
-        GameUIList(vm.uiState.gameList, Modifier.fillMaxSize())
+
+
+        GameUIList(vm.uiState.gameList,
+            Modifier.fillMaxSize(),
+            onItemClick = {gameID ->
+                Log.d(TAG, "onItemClick: Se hizo clic en el juego con ID: $gameID")
+                navController.navigate(Screens.GameDetail.route+"/${gameID}")
+                Log.d(TAG, "onItemClick: Navegando a GameDetail Screen")
+        })
     }
 }
 

@@ -4,8 +4,8 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.delay
 
-class GameTestDataSource : IGameDataSource {
-   override suspend fun getGameList(search: String) : List<Game>{
+class GameTestDataSource {
+ suspend fun getGameList(search: String) : List<Game>{
 
        delay(5000)
        val gson = Gson()
@@ -14,7 +14,11 @@ class GameTestDataSource : IGameDataSource {
 
     }
 
-   private var json = """
+    /*suspend fun getGameById(gameId: String): GameDetailsResponse {
+        return getGameList("")[612]
+    }*/
+
+    private var json = """
         [
   {
     "gameID": "612",
