@@ -35,7 +35,8 @@ fun GameListScreen(modifier: Modifier = Modifier,
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
-    ) {
+    )
+    {
         Text(
             text = "Listado de juegos",
             style = MaterialTheme.typography.titleLarge,

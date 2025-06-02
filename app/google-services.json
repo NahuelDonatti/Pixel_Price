@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "458060738992",
+    "project_id": "pixelprice-53281",
+    "storage_bucket": "pixelprice-53281.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:458060738992:android:b53c9655c6f1caab966675",
+        "android_client_info": {
+          "package_name": "com.app.pixelprice"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "458060738992-lesurc9pc66r8rtq3n3k7s04irvceecc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.pixelprice",
+            "certificate_hash": "8d43b2c651dd9876eb3592953d7bd01e4826027a"
+          }
+        },
+        {
+          "client_id": "458060738992-kg2sssaees1pror6sgmpufe61hob33jk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJ_WQG3vMY46EeypbWXsBQrVFZw5bsly4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "458060738992-kg2sssaees1pror6sgmpufe61hob33jk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
