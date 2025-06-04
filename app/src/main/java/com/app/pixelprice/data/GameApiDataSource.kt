@@ -22,9 +22,9 @@ class GameApiDataSource() : IGameDataSource {
         }
     }
 
-    override suspend fun getGameByID(gameID: String): GameDetailsResponse {
-            val gameList = RetrofitInstance.gameAPI.getGameByID(gameID)
-            return gameList
+    override suspend fun getDealByID(dealID: String): GameDetailsResponse {
+            val game = RetrofitInstance.gameAPI.getDealByID(dealID)
+            return game
     }
 }
 

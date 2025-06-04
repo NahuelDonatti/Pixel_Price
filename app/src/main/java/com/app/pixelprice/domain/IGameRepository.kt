@@ -5,5 +5,5 @@ import com.app.pixelprice.data.GameDetailsResponse
 
 interface IGameRepository {
    suspend fun fetchGames(search: String) : List<Game>
-   suspend fun fetchGame(gameID: String) : GameDetailsResponse
+   suspend fun fetchGame(dealID: String) : GameDetailsResponse
 }

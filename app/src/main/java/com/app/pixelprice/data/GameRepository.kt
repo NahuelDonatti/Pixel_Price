@@ -9,7 +9,7 @@ class GameRepository (val gameDataSource: IGameDataSource = GameApiDataSource())
         return gameDataSource.getGameList(search)
     }
 
-    override suspend fun fetchGame(gameID: String): GameDetailsResponse {
-        return gameDataSource.getGameByID(gameID)
+    override suspend fun fetchGame(dealID: String): GameDetailsResponse {
+        return gameDataSource.getDealByID(dealID)
     }
 }

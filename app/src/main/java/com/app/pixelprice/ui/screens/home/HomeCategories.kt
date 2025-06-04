@@ -1,27 +1,32 @@
 package com.app.pixelprice.ui.screens.home
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddShoppingCart
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.MoneyOff
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 
 @Composable
 fun HomeCategoriesSection(
@@ -40,42 +45,61 @@ fun HomeCategoriesSection(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceAround
         ) {
-            CategoryButton(text = "CATALOGO", onClick = onCatalogClick, modifier = Modifier.weight(1f))
+            CategoryButton(icon = Icons.Default.AddShoppingCart,text = "CATALOGO", onClick = onCatalogClick, modifier = Modifier.weight(1f).height(150.dp))
             Spacer(modifier = Modifier.width(16.dp))
-            CategoryButton(text = "LISTA DE DESEADOS", onClick = onWishlistClick, modifier = Modifier.weight(1f))
+            CategoryButton(icon = Icons.Default.Favorite,text = "LISTA DE DESEADOS (ToDo)", onClick = onWishlistClick, modifier = Modifier.weight(1f).height(150.dp))
         }
         Spacer(modifier = Modifier.height(16.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceAround
         ) {
-            CategoryButton(text = "OFERTAS", onClick = onOffersClick, modifier = Modifier.weight(1f))
+            CategoryButton(icon = Icons.Default.MoneyOff, text = "MEJORES OFERTAS (ToDo)", onClick = onOffersClick, modifier = Modifier.weight(1f).height(150.dp))
             Spacer(modifier = Modifier.width(16.dp))
-            CategoryButton(text = "AJUSTES", onClick = onSettingsClick, modifier = Modifier.weight(1f))
+            CategoryButton(icon = Icons.Default.Settings, text = "AJUSTES(ToDo)", onClick = onSettingsClick, modifier = Modifier.weight(1f).height(150.dp))
         }
     }
 }
 
 @Composable
 fun CategoryButton(
+    icon: ImageVector,
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Box(
+    Card(
+        onClick = onClick,
         modifier = modifier
-            .aspectRatio(1f) // Hace que el botón sea cuadrado
-            .clip(RoundedCornerShape(16.dp)) // Esquinas redondeadas
-            .background(MaterialTheme.colorScheme.surfaceVariant) // Color de fondo del botón
-            .clickable(onClick = onClick),
-        contentAlignment = Alignment.Center
+            .width(100.dp)
+            .padding(8.dp),
+        shape = MaterialTheme.shapes.medium,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
-        Text(
-            text = text,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            style = MaterialTheme.typography.bodyLarge.copy(fontSize = 14.sp),
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(8.dp)
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 6.dp, top = 34.dp, end = 6.dp, bottom = 6.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = text,
+                modifier = Modifier.size(36.dp),
+                tint = MaterialTheme.colorScheme.primary
+            )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                text = text,
+                style = MaterialTheme.typography.labelMedium,
+                textAlign = TextAlign.Center,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+        }
     }
 }

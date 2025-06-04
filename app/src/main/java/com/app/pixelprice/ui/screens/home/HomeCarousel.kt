@@ -15,16 +15,15 @@ import androidx.compose.ui.unit.dp
 fun HomeCarouselSection(modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
-            .clip(RoundedCornerShape(8.dp)) // Redondea las esquinas del carrusel
-            .background(MaterialTheme.colorScheme.primaryContainer), // Un color de fondo para el placeholder
+            .clip(RoundedCornerShape(8.dp))
+            .background(MaterialTheme.colorScheme.primaryContainer),
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "CARRUSEL",
+            text = "CARRUSEL (ToDo)",
             color = MaterialTheme.colorScheme.onPrimaryContainer,
             style = MaterialTheme.typography.headlineSmall
         )
-        // Aquí iría tu implementación real del carrusel (ej. usando Coil para imágenes)
-        // Puedes usar un HorizontalPager de Accompanist o un LazyRow personalizado
+        //ToDo
     }
 }

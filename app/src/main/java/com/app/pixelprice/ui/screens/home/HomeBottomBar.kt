@@ -1,5 +1,6 @@
 package com.app.pixelprice.ui.screens.home
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -9,9 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward // Icono para "salir"
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -20,17 +20,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.app.pixelprice.R
 import com.app.pixelprice.ui.screens.Screens
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun HomeBottomBar(navController: NavController, modifier: Modifier = Modifier) {
+    val context = LocalContext.current
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface) // Fondo de la barra inferior
+            .background(MaterialTheme.colorScheme.surface)
             .padding(vertical = 8.dp),
         horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.CenterVertically
@@ -41,7 +47,6 @@ fun HomeBottomBar(navController: NavController, modifier: Modifier = Modifier) {
             label = "Inicio",
             onClick = {
                 navController.navigate(Screens.Home.route) {
-                    // Evitar múltiples instancias de la Home en el back stack
                     popUpTo(navController.graph.startDestinationId) {
                         saveState = true
                     }
@@ -49,30 +54,37 @@ fun HomeBottomBar(navController: NavController, modifier: Modifier = Modifier) {
                     restoreState = true
                 }
             },
-            isSelected = navController.currentDestination?.route == Screens.Home.route // Resalta si es la pantalla actual
+            isSelected = navController.currentDestination?.route == Screens.Home.route
         )
-        // FAVORITOS/ESTRELLA
+        // FAVORITOS
         BottomBarItem(
             icon = Icons.Default.Star,
             label = "Deseados",
             onClick = { /* TODO: Navegar a la pantalla de deseados */ },
-            isSelected = false // Implementar lógica de selección si existe
-        )
-        // CARRITO/COMPRAS
-        BottomBarItem(
-            icon = Icons.Default.ShoppingCart,
-            label = "Carrito",
-            onClick = { /* TODO: Navegar a la pantalla del carrito */ },
             isSelected = false
         )
-        // CERRAR SESIÓN / SALIR (usé ArrowForward como ejemplo)
+
+        // CERRAR SESIÓN
         BottomBarItem(
             icon = Icons.Default.ArrowForward,
             label = "Salir",
             onClick = {
-                // Ejemplo de cómo navegar a la pantalla de Login y limpiar el back stack
+                FirebaseAuth.getInstance().signOut()
+
+                val googleSignInClient = GoogleSignIn.getClient(context,
+                    GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).
+                    requestIdToken(context.getString(R.string.default_web_client_id)).requestEmail().build())
+
+                googleSignInClient.signOut().addOnCompleteListener { task ->
+                    if (task.isSuccessful){
+                        Log.d("AUTH", "Sesión de google cerrada correctamente")
+                    } else {
+                        Log.e("AUTH", "Error al cerrar sesión de google: ${task.exception?.message}")
+                    }
+                }
+
                 navController.navigate(Screens.Login.route) {
-                    popUpTo(0) { inclusive = true } // Limpia todo el back stack
+                    popUpTo(0) { inclusive = true }
                 }
             },
             isSelected = false

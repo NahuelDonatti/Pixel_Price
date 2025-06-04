@@ -20,11 +20,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            val navController = rememberNavController() // Crea el NavController aquí
+            val navController = rememberNavController()
 
-            PixelPriceTheme {
+            PixelPriceTheme(darkTheme = true) {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    NavigationStack(navController = navController) // Pasa el NavController
+                    NavigationStack(navController = navController)
                 }
             }
         }

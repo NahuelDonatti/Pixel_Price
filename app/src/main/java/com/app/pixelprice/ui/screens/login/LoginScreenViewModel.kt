@@ -8,7 +8,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
@@ -18,11 +17,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-// Define un estado de UI para la pantalla de Login
 data class LoginUiState(
     val isLoading: Boolean = false,
     val error: String? = null,
-    val isAuthenticated: Boolean = false // Para indicar si el usuario ha iniciado sesión
+    val isAuthenticated: Boolean = false
 )
 
 class LoginScreenViewModel(
@@ -32,16 +30,11 @@ class LoginScreenViewModel(
     private val _uiState = MutableStateFlow(LoginUiState())
     val uiState: StateFlow<LoginUiState> = _uiState
 
-    // Necesitarás una forma de obtener el client ID.
-    // Esto se puede pasar a través de un factory si no usas Hilt.
-    // Para simplificar, asumiremos que se puede acceder al contexto para getString(R.string.default_web_client_id)
-    // o que el client ID se pasa de alguna otra forma al ViewModel.
 
-    // Función para iniciar el flujo de Google Sign-In
     fun startGoogleSignIn(
-        context: Context, // Necesitas el contexto para GoogleSignIn.getClient
+        context: Context,
         launcher: ActivityResultLauncher<Intent>,
-        webClientId: String // Pasa el default_web_client_id aquí
+        webClientId: String
     ) {
         _uiState.value = _uiState.value.copy(isLoading = true, error = null)
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -52,7 +45,6 @@ class LoginScreenViewModel(
         launcher.launch(googleSignInClient.signInIntent)
     }
 
-    // Función para manejar el resultado del ActivityResultLauncher
     fun handleGoogleSignInResult(resultCode: Int, data: Intent?) {
         Log.d("LoginVMDebug", "handleGoogleSignInResult llamado. ResultCode: $resultCode")
         if (resultCode == Activity.RESULT_OK) {
@@ -87,9 +79,5 @@ class LoginScreenViewModel(
         }
     }
 
-    // Función para resetear el estado de autenticación (ej. después de navegar)
-    fun resetAuthStatus() {
-        Log.d("LoginVMDebug", "resetAuthStatus() llamado. Seteando isAuthenticated a false.")
-        _uiState.value = _uiState.value.copy(isAuthenticated = false)
-    }
+
 }

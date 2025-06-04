@@ -1,26 +1,24 @@
 package com.app.pixelprice.ui.screens.gamelist
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Button
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.app.pixelprice.ui.screens.Screens
 import com.app.pixelprice.ui.screens.commons.GameUIList
+import com.app.pixelprice.ui.screens.commons.SearchGameBar
 
 private const val TAG = "GameListDebug"
 
@@ -29,50 +27,85 @@ private const val TAG = "GameListDebug"
 @Composable
 fun GameListScreen(modifier: Modifier = Modifier,
                    vm: GameListScreenViewModel = viewModel(),
-                   navController: NavHostController){
+                   navController: NavHostController,
+                   initialQuery: String = ""){
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    )
-    {
-        Text(
-            text = "Listado de juegos",
-            style = MaterialTheme.typography.titleLarge,
-            modifier = modifier
-        )
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+    val context = LocalContext.current
 
-        ) {
-            TextField(
-                value = vm.uiState.searchQuery,
-                modifier = Modifier.weight(1f),
-                label = { Text("Buscar juegos: ")},
-                singleLine = true,
-                onValueChange = {vm.searchChange(it)}
+    LaunchedEffect(key1 = initialQuery) {
+        Log.d(TAG, "LaunchedEffect para query inicial: $initialQuery")
+        vm.handleInitialQuery(initialQuery)
+    }
+
+    Scaffold(
+        topBar = {
+            SearchGameBar(
+                query = vm.uiState.searchQuery,
+                onQueryChange = { vm.searchChange(it) },
+                onSearch = { vm.searchSubmited(it) },
+                onClose = {
+                    vm.searchChange("")
+                    vm.searchSubmited("")
+                },
+                onNotificationClick = {
+                    Toast.makeText(context, "Notificaciones de GameList!", Toast.LENGTH_SHORT).show()
+                    Log.d(TAG, "Botón de notificaciones de GameList presionado.")
+                },
+                placeholderText = "Filtrar juegos..."
             )
-            Spacer(modifier = Modifier.width(8.dp))
-            Button(
-                onClick = {
-                    vm.fetchGames()
-                }
-            ) {
-                Text("Buscar")
+        },
+        modifier = modifier
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+        ) {
+
+            if (vm.uiState.isLoading) {
+                LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+            }
+
+            vm.uiState.errorMessage?.let { message ->
+                Text(
+                    text = message,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+
+            // Lista de juegos
+            if (!vm.uiState.isLoading && vm.uiState.gameList.isEmpty() && vm.uiState.searchQuery.isEmpty()) {
+                Text(
+                    text = "No hay juegos disponibles.",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            } else if (!vm.uiState.isLoading && vm.uiState.gameList.isEmpty() && vm.uiState.searchQuery.isNotEmpty()) {
+                Text(
+                    text = "No se encontraron juegos para '${vm.uiState.searchQuery}'",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
+            else {
+                GameListHeader(modifier = Modifier.padding(top = 8.dp))
+                GameUIList(
+                    vm.uiState.gameList,
+                    storesMap = vm.uiState.storesMap,
+                    Modifier.fillMaxSize(),
+                    onItemClick = { dealID ->
+                        Log.d(TAG, "onItemClick: Se hizo clic en el juego con ID: $dealID")
+                        navController.navigate(Screens.GameDetail.route + "/${dealID}")
+                        Log.d(TAG, "onItemClick: Navegando a GameDetail Screen")
+                    }
+                )
             }
         }
-        Spacer(modifier = Modifier.height(12.dp))
-
-
-        GameUIList(vm.uiState.gameList,
-            Modifier.fillMaxSize(),
-            onItemClick = {gameID ->
-                Log.d(TAG, "onItemClick: Se hizo clic en el juego con ID: $gameID")
-                navController.navigate(Screens.GameDetail.route+"/${gameID}")
-                Log.d(TAG, "onItemClick: Navegando a GameDetail Screen")
-        })
     }
 }
-

@@ -3,47 +3,48 @@ package com.app.pixelprice.data
 import com.google.gson.annotations.SerializedName
 
 data class Game(
+    val dealID: String,
     val gameID: String,
     val steamAppID: String?,
+    val steamRatingText: String?,
     val salePrice: String,
+    val normalPrice: String,
+    val isOnSale: String,
+    val savings: String,
+    val releaseDate: Long?,
     @SerializedName("title")
     val gameName: String,
-    val thumb: String
+    val thumb: String,
+    val storeID: String
 )
 
 data class GameDetailsResponse(
-    val info: GameInfo,
-    val cheapestPriceEver: CheapestPriceEver?,
-    val deals: List<Deal>
+    val gameInfo: gameInfo
 )
 
-data class GameInfo(
-    val title: String,
-    val steamAppID: String?, // Can be null
+data class gameInfo(
+    val storeID: String,
+    val gameID: String,
+    val name: String,
+    val steamAppID: String?,
+    val steamRatingText: String?,
+    val salePrice: String,
+    val retailPrice: String,
+    val releaseDate: Long?,
     val thumb: String
 )
 
-data class CheapestPriceEver(
-    val price: String,
-    val date: Long
-)
 
-data class Deal(
-    val storeID: String,
-    val dealID: String,
-    val price: String,
-    val retailPrice: String,
-    val savings: String
-)
-
-fun emptyGame() : GameDetailsResponse {
-    return GameDetailsResponse(
-        info = GameInfo(
-            title = "",
-            steamAppID = "",
-            thumb = ""
-        ),
-        cheapestPriceEver = null,
-        deals = emptyList()
-    )
+fun emptyGame() : GameDetailsResponse{
+    return GameDetailsResponse(gameInfo = gameInfo(
+        storeID = "0",
+        gameID = "0",
+        name = "",
+        steamAppID = null,
+        steamRatingText = null,
+        salePrice = "0",
+        retailPrice = "0",
+        releaseDate = null,
+        thumb = "0",
+    ))
 }

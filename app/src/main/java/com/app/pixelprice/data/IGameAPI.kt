@@ -9,8 +9,8 @@ interface IGameAPI {
         @Query("title") search: String
     ) : List<Game>
 
-    @GET("games")
-    suspend fun getGameByID(
-        @Query("id") gameID: String
+    @GET("deals")
+    suspend fun getDealByID(
+        @Query("id") dealID: String
     ) : GameDetailsResponse
 }

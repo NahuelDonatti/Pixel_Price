@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.app.pixelprice.ui.screens.gamedetail.GameDetailScreen
 import com.app.pixelprice.ui.screens.gamelist.GameListScreen
 import com.app.pixelprice.ui.screens.home.HomeScreen
@@ -30,12 +30,18 @@ fun NavigationStack(navController: NavHostController) {
             HomeScreen(navController = navController)
         }
 
-        composable(route = Screens.GameList.route) {
-            GameListScreen(navController = navController)
+        composable(route = Screens.GameList.route + "?query={query}", arguments = listOf(navArgument("query"){
+            defaultValue = ""
+            nullable = true
+        })
+        ) { backStackEntry ->
+            val query = backStackEntry.arguments?.getString("query")
+            GameListScreen(navController = navController,
+                initialQuery = query ?: "")
         }
-        composable(route = Screens.GameDetail.route + "/{gameID}") { it ->
-            var gameID = it.arguments?.getString("gameID")
-            GameDetailScreen(gameID ?: "0")
+        composable(route = Screens.GameDetail.route + "/{dealID}") { it ->
+            var dealID = it.arguments?.getString("dealID")
+            GameDetailScreen(dealID ?: "0")
         }
 
 

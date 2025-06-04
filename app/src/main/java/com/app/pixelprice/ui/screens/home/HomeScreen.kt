@@ -1,23 +1,41 @@
 package com.app.pixelprice.ui.screens.home
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.app.pixelprice.ui.screens.Screens
+import com.app.pixelprice.ui.screens.commons.SearchGameBar
 
 
-// --- HomeScreen Composable ---
 
 @Composable
-fun HomeScreen(navController: NavHostController) { // Recibe el NavController
+fun HomeScreen(navController: NavHostController) {
+
+    val context = LocalContext.current
+    val searchQuery = remember { mutableStateOf("") }
+
     Scaffold(
         topBar = {
-            HomeTopBar(
-                onSearchClick = { /* TODO: Implementar búsqueda */ },
-                onNotificationsClick = { /* TODO: Implementar notificaciones */ }
+            SearchGameBar(
+                query = searchQuery.value,
+                onQueryChange = { searchQuery.value = it },
+                onSearch = { query ->
+                    navController.navigate(Screens.GameList.route + "?query=${query}") {
+                    }
+                },
+                onClose = { searchQuery.value = "" },
+                onNotificationClick = {
+                    Toast.makeText(context, "Notificaciones de Home!", Toast.LENGTH_SHORT).show()
+                },
+                placeholderText = "Buscar juegos"
             )
         },
         bottomBar = {
@@ -27,23 +45,18 @@ fun HomeScreen(navController: NavHostController) { // Recibe el NavController
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues) // ¡Aplica el padding del Scaffold aquí!
+                .padding(paddingValues)
                 .background(MaterialTheme.colorScheme.background)
         ) {
-            Text(
-                text = "Destacados",
-                style = MaterialTheme.typography.headlineMedium,
-                modifier = Modifier.padding(start = 16.dp, top = 16.dp, bottom = 8.dp)
-            )
+            HomeCarouselSection(modifier = Modifier.fillMaxWidth().height(300.dp).padding(horizontal = 16.dp, vertical = 36.dp))
 
-            // Sección del Carrusel (por ahora un placeholder)
-            HomeCarouselSection(modifier = Modifier.fillMaxWidth().height(200.dp).padding(horizontal = 16.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
-            Spacer(modifier = Modifier.height(16.dp))
-
-            // Sección de Categorías/Botones
+            // BOTONES PRINCIPALES
             HomeCategoriesSection(
-                onCatalogClick = { /* TODO */ },
+                onCatalogClick = {
+                    navController.navigate(Screens.GameList.route)
+                },
                 onWishlistClick = { /* TODO */ },
                 onOffersClick = { /* TODO */ },
                 onSettingsClick = { /* TODO */ }

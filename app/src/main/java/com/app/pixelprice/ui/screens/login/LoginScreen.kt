@@ -40,9 +40,8 @@ fun LoginScreen(
         }
     }
     val uiState by vm.uiState.collectAsState()
-    val context = LocalContext.current // Obtener el contexto
+    val context = LocalContext.current
 
-    // El launcher se define aquí, en el ámbito de composición
     val googleSignInLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -50,14 +49,12 @@ fun LoginScreen(
         vm.handleGoogleSignInResult(result.resultCode, result.data)
     }
 
-    // Efecto para navegar cuando el usuario está autenticado
     LaunchedEffect(uiState.isAuthenticated) {
         Log.d("LoginScreenDebug", "LaunchedEffect activado. uiState.isAuthenticated: ${uiState.isAuthenticated}")
         if (uiState.isAuthenticated) {
             val currentUser = FirebaseAuth.getInstance().currentUser
             Log.d("LoginScreenDebug", "Usuario autenticado en LaunchedEffect. UID: ${currentUser?.uid}. Navegando a ${Screens.Home.route}")
             navController.navigate(Screens.Home.route) {
-                // Limpia el back stack para que el usuario no pueda volver a la pantalla de login
                 popUpTo(Screens.Login.route) { inclusive = true }
             }
         }
@@ -78,7 +75,6 @@ fun LoginScreen(
                 Button(
                     onClick = {
                         Log.d("LoginScreenDebug", "Botón 'Iniciar sesión con Google' clickeado.")
-                        // Obtener el ID de cliente web de strings.xml
                         val webClientId = context.getString(R.string.default_web_client_id)
                         vm.startGoogleSignIn(context, googleSignInLauncher, webClientId)
                     }
