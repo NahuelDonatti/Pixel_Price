@@ -69,7 +69,7 @@ fun GameDetailsContent(
                 DetailRow(label = "Disponible en:") {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         AsyncImage(
-                            model = baseImageURL + it.images.icon, // O .logo
+                            model = baseImageURL + it.images.icon,
                             contentDescription = "Logo de ${it.storeName}",
                             contentScale = ContentScale.Fit,
                             modifier = Modifier.size(24.dp)
@@ -124,10 +124,6 @@ fun GameDetailsContent(
                 Divider()
                 Spacer(modifier = Modifier.height(8.dp))
 
-                gameInfo.steamAppID?.takeIf { it.isNotBlank() }?.let { steamId ->
-                    DetailRow(label = "Steam App ID:", value = steamId)
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
                 gameInfo.steamRatingText?.takeIf { it.isNotBlank() }?.let { rating ->
                     DetailRow(label = "Valoración en Steam:", value = rating)
                     Spacer(modifier = Modifier.height(12.dp))
