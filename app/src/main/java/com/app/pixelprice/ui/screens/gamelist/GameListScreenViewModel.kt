@@ -78,6 +78,8 @@ class GameListScreenViewModel(
         uiState = uiState.copy(searchQuery = search)
         fetchGames()
     }
+
+
 }
 
 

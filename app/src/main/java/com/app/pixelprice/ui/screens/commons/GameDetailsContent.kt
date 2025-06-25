@@ -9,7 +9,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,17 +26,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import com.app.pixelprice.data.GameDetailsResponse
 import com.app.pixelprice.data.Stores
 import com.app.pixelprice.data.formatReleaseDate
+import com.app.pixelprice.ui.screens.gamedetail.GameDetailScreenViewModel
 
 
 @Composable
 fun GameDetailsContent(
     gameDetails: GameDetailsResponse,
     stores: Stores?,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    vm: GameDetailScreenViewModel = viewModel()
 ) {
     val baseImageURL = "https://www.cheapshark.com/"
     val gameInfo = gameDetails.gameInfo
@@ -59,6 +68,13 @@ fun GameDetailsContent(
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
         )
+        IconButton(onClick = { vm.onFavoriteToggle() }) {
+        Icon(
+            imageVector = if (vm.uiState.isFavorite) Icons.Default.Star else Icons.Default.StarBorder,
+            contentDescription = "Marcar como favorito",
+            modifier = Modifier.size(22.dp),
+            tint = MaterialTheme.colorScheme.outline
+        )}
         Spacer(modifier = Modifier.height(24.dp))
 
         // DETALLES

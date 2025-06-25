@@ -8,4 +8,5 @@ data class GameDetailScreenState (
     val dealID: String = "",
     val gameDetail: GameDetailsResponse = emptyGame(),
     val store: Stores? = null,
-    val isLoading: Boolean = false)
+    val isLoading: Boolean = false,
+    val isFavorite: Boolean = false)

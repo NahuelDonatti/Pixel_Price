@@ -57,7 +57,9 @@ fun HomeScreen(navController: NavHostController) {
                 onCatalogClick = {
                     navController.navigate(Screens.GameList.route)
                 },
-                onWishlistClick = { /* TODO */ },
+                onWishlistClick = {
+                    navController.navigate(Screens.Favorites.route)
+                },
                 onOffersClick = { /* TODO */ },
                 onSettingsClick = { /* TODO */ }
             )

@@ -1,5 +1,7 @@
 package com.app.pixelprice.data
 
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -13,3 +15,5 @@ fun formatReleaseDate(timestampSeconds: Long?): String? {
         null
     }
 }
+
+fun String.toFirestoreSafeId(): String { return URLEncoder.encode(this, StandardCharsets.UTF_8.toString()) }

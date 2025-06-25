@@ -20,7 +20,7 @@ fun GameDetailScreen(
     vm: GameDetailScreenViewModel = viewModel()
 ) {
     LaunchedEffect(dealID) {
-        Log.d("GameDetailScreen", "LaunchedEffect triggered for dealID: $dealID")
+        Log.d("GameDetailScreen", "LaunchedEffect activado para dealID: $dealID")
         if (dealID.isNotBlank() && dealID != "0") {
             vm.setDealID(dealID)
         }
@@ -37,6 +37,7 @@ fun GameDetailScreen(
             gameDetails = uiState.gameDetail,
             stores = uiState.store,
             modifier = Modifier.fillMaxSize()
+
         )
     }
 

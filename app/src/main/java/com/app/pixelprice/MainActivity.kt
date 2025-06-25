@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
+import com.app.pixelprice.data.localdb.GameDatabase
+import com.app.pixelprice.data.localdb.GameDatabaseProvider
 import com.app.pixelprice.ui.screens.NavigationStack
 import com.app.pixelprice.ui.theme.PixelPriceTheme
 
@@ -18,6 +20,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        GameDatabaseProvider.createDatabase(this)
 
         setContent {
             val navController = rememberNavController()

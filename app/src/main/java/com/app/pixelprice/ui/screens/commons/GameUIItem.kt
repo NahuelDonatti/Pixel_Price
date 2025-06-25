@@ -100,13 +100,6 @@ fun GameUIItem(
                 )
 
                 Spacer(Modifier.width(6.dp))
-
-                Icon(
-                    imageVector = Icons.Default.StarBorder,
-                    contentDescription = "Marcar como favorito",
-                    modifier = Modifier.size(22.dp),
-                    tint = MaterialTheme.colorScheme.outline
-                )
             }
 
             // PRECIO

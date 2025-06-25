@@ -3,35 +3,35 @@ package com.app.pixelprice.data
 import com.google.gson.annotations.SerializedName
 
 data class Game(
-    val dealID: String,
-    val gameID: String,
-    val steamAppID: String?,
-    val steamRatingText: String?,
-    val salePrice: String,
-    val normalPrice: String,
-    val isOnSale: String,
-    val savings: String,
-    val releaseDate: Long?,
+    val dealID: String = "",
+    val gameID: String = "",
+    val steamAppID: String? = "",
+    val steamRatingText: String? = "",
+    val salePrice: String = "",
+    val normalPrice: String = "",
+    val isOnSale: String = "",
+    val savings: String = "",
+    val releaseDate: Long? = 0,
     @SerializedName("title")
-    val gameName: String,
-    val thumb: String,
-    val storeID: String
+    val gameName: String = "",
+    val thumb: String = "",
+    val storeID: String = ""
 )
 
 data class GameDetailsResponse(
-    val gameInfo: gameInfo
+    val gameInfo: gameInfo = gameInfo()
 )
 
 data class gameInfo(
-    val storeID: String,
-    val gameID: String,
-    val name: String,
-    val steamAppID: String?,
-    val steamRatingText: String?,
-    val salePrice: String,
-    val retailPrice: String,
-    val releaseDate: Long?,
-    val thumb: String
+    val storeID: String = "",
+    val gameID: String = "",
+    val name: String = "",
+    val steamAppID: String? = "",
+    val steamRatingText: String? = "",
+    val salePrice: String = "",
+    val retailPrice: String = "",
+    val releaseDate: Long? = 0,
+    val thumb: String = ""
 )
 
 

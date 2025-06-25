@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.app.pixelprice.ui.screens.favorites.FavoritesScreen
 import com.app.pixelprice.ui.screens.gamedetail.GameDetailScreen
 import com.app.pixelprice.ui.screens.gamelist.GameListScreen
 import com.app.pixelprice.ui.screens.home.HomeScreen
@@ -43,6 +44,11 @@ fun NavigationStack(navController: NavHostController) {
             var dealID = it.arguments?.getString("dealID")
             GameDetailScreen(dealID ?: "0")
         }
+
+        composable(route = Screens.Favorites.route){
+            FavoritesScreen(navController = navController)
+        }
+
 
 
     }

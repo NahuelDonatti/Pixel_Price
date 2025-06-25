@@ -47,7 +47,7 @@ fun HomeCategoriesSection(
         ) {
             CategoryButton(icon = Icons.Default.AddShoppingCart,text = "CATALOGO", onClick = onCatalogClick, modifier = Modifier.weight(1f).height(150.dp))
             Spacer(modifier = Modifier.width(16.dp))
-            CategoryButton(icon = Icons.Default.Favorite,text = "LISTA DE DESEADOS (ToDo)", onClick = onWishlistClick, modifier = Modifier.weight(1f).height(150.dp))
+            CategoryButton(icon = Icons.Default.Favorite,text = "LISTA DE DESEADOS", onClick = onWishlistClick, modifier = Modifier.weight(1f).height(150.dp))
         }
         Spacer(modifier = Modifier.height(16.dp))
         Row(
