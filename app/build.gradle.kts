@@ -81,6 +81,8 @@ dependencies {
     {
         exclude(group="com.intellij", module="annotations")
     }
+    implementation(libs.accompanist.pager)
+    implementation(libs.accompanist.pager.indicators)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

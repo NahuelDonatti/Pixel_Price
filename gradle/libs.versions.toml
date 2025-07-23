@@ -31,6 +31,8 @@ roomCompiler = "2.7.2"
 roomKtx = "2.7.2"
 roomMigration = "2.7.2"
 roomRuntime = "2.7.2"
+accompanistPager = "0.36.0"
+accompanistPagerIndicators = "0.36.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -75,6 +77,8 @@ androidx-room-compiler = { group = "androidx.room", name = "room-compiler", vers
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "roomKtx" }
 androidx-room-migration = { group = "androidx.room", name = "room-migration", version.ref = "roomMigration" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomRuntime" }
+accompanist-pager = { group = "com.google.accompanist", name = "accompanist-pager", version.ref = "accompanistPager" }
+accompanist-pager-indicators = { group = "com.google.accompanist", name = "accompanist-pager-indicators", version.ref = "accompanistPagerIndicators" }
 
 
 [plugins]
