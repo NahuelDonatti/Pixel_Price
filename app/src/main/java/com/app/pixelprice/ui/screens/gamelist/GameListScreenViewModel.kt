@@ -1,6 +1,7 @@
 package com.app.pixelprice.ui.screens.gamelist
 
 import android.util.Log
+import android.util.Log.e
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -21,6 +22,8 @@ class GameListScreenViewModel(
 
     var uiState by mutableStateOf(GameListScreenState())
         private set
+
+    var currentApiQuery by mutableStateOf<String?>(null)
 
     private var fetchJob: Job? = null
     private var storesJob: Job? = null
@@ -44,11 +47,13 @@ class GameListScreenViewModel(
         }
     }
 
-    fun handleInitialQuery(initialQuery: String){
-        if (initialQuery.isNotEmpty() && uiState.searchQuery != initialQuery) {
-            uiState = uiState.copy(searchQuery = initialQuery)
+    fun handleInitialQuery(initialQueryFromNav: String){
+        Log.d("GameListViewModel", "handleInitialQuery - Query recibida: $initialQueryFromNav")
+        if (currentApiQuery != initialQueryFromNav) {
+            currentApiQuery = initialQueryFromNav
+            uiState = uiState.copy(searchQuery = "")
             fetchGames()
-        } else if (initialQuery.isEmpty() && uiState.gameList.isEmpty() && uiState.searchQuery.isEmpty()){
+        } else if (initialQueryFromNav.isEmpty() && uiState.gameList.isEmpty() && uiState.searchQuery.isEmpty()){
             fetchGames()
         }
     }
@@ -59,10 +64,17 @@ class GameListScreenViewModel(
         fetchJob?.cancel()
         uiState = uiState.copy(isLoading = true, errorMessage = null)
         fetchJob = viewModelScope.launch {
-            try {
-                val games = gameRepository.fetchGames(uiState.searchQuery).sortedBy { it.gameName }
-                uiState = uiState.copy(gameList = games, isLoading = false)
 
+            try {
+                val queryToUse = if (uiState.searchQuery.isNotEmpty()) {
+                    uiState.searchQuery
+                } else {
+                    currentApiQuery
+                }
+                Log.d("GameListViewModel", "fetchGames - Query a usar para la API: $queryToUse")
+
+                val games = gameRepository.fetchGames(queryToUse ?: "").sortedBy { it.gameName }
+                uiState = uiState.copy(gameList = games, isLoading = false)
             }
             catch (e: IOException){
                 Log.e("PixelPrice", "Error recuperando la lista de juegos")
@@ -71,10 +83,11 @@ class GameListScreenViewModel(
     }
 
     fun searchChange(search: String){
-       uiState = uiState.copy(searchQuery = search, gameList = uiState.gameList)
+       uiState = uiState.copy(searchQuery = search)
     }
 
     fun searchSubmited(search: String){
+        currentApiQuery = null
         uiState = uiState.copy(searchQuery = search)
         fetchGames()
     }

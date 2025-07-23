@@ -28,7 +28,7 @@ fun HomeScreen(navController: NavHostController) {
                 query = searchQuery.value,
                 onQueryChange = { searchQuery.value = it },
                 onSearch = { query ->
-                    navController.navigate(Screens.GameList.route + "?query=${query}") {
+                    navController.navigate(Screens.GameList.createRoute()) {
                     }
                 },
                 onClose = { searchQuery.value = "" },
@@ -55,13 +55,16 @@ fun HomeScreen(navController: NavHostController) {
             // BOTONES PRINCIPALES
             HomeCategoriesSection(
                 onCatalogClick = {
-                    navController.navigate(Screens.GameList.route)
+                    navController.navigate(Screens.GameList.createRoute())
                 },
                 onWishlistClick = {
                     navController.navigate(Screens.Favorites.route)
                 },
-                onOffersClick = { /* TODO */ },
-                onSettingsClick = { /* TODO */ }
+                onOffersClick = {
+                    val offersQuery = "sortBy=Price"
+                    navController.navigate(Screens.GameList.createRoute(offersQuery))
+                },
+                onSettingsClick = {navController.navigate(Screens.Settings.route)}
             )
         }
     }

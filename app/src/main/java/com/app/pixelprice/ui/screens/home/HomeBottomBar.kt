@@ -60,7 +60,7 @@ fun HomeBottomBar(navController: NavController, modifier: Modifier = Modifier) {
         BottomBarItem(
             icon = Icons.Default.Star,
             label = "Deseados",
-            onClick = { /* TODO: Navegar a la pantalla de deseados */ },
+            onClick = {  navController.navigate(Screens.Favorites.route) },
             isSelected = false
         )
 

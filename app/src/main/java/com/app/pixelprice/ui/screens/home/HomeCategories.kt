@@ -54,9 +54,9 @@ fun HomeCategoriesSection(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceAround
         ) {
-            CategoryButton(icon = Icons.Default.MoneyOff, text = "MEJORES OFERTAS (ToDo)", onClick = onOffersClick, modifier = Modifier.weight(1f).height(150.dp))
+            CategoryButton(icon = Icons.Default.MoneyOff, text = "MEJORES OFERTAS", onClick = onOffersClick, modifier = Modifier.weight(1f).height(150.dp))
             Spacer(modifier = Modifier.width(16.dp))
-            CategoryButton(icon = Icons.Default.Settings, text = "AJUSTES(ToDo)", onClick = onSettingsClick, modifier = Modifier.weight(1f).height(150.dp))
+            CategoryButton(icon = Icons.Default.Settings, text = "AJUSTES", onClick = onSettingsClick, modifier = Modifier.weight(1f).height(150.dp))
         }
     }
 }

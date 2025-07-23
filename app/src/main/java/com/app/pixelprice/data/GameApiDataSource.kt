@@ -29,6 +29,22 @@ class GameApiDataSource() : IGameDataSource {
         }
     }
 
+    override suspend fun getDealsSorted(sortBy: String): List<Game> {
+        try {
+            val gameResult = RetrofitInstance.gameAPI.getGameSorted(sortBy = sortBy)
+            return gameResult
+        } catch (e: HttpException) {
+            Log.e("GameApiDataSource", "Error de HTTP: ${e.message}", e)
+            return emptyList()
+        } catch (e: IOException) {
+            Log.e("GameApiDataSource", "Error de internet: ${e.message}", e)
+            return emptyList()
+        } catch (e: Exception) {
+            Log.e("GameApiDataSource", "Error recuperando la lista de juegos: ${e.message}", e)
+            return emptyList()
+        }
+    }
+
     override suspend fun getDealByID(dealID: String): GameDetailsResponse {
 
         val db= FirebaseFirestore.getInstance()
