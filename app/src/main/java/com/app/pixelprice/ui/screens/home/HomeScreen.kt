@@ -48,7 +48,7 @@ fun HomeScreen(navController: NavHostController) {
                 .padding(paddingValues)
                 .background(MaterialTheme.colorScheme.background)
         ) {
-            HomeCarouselSection(modifier = Modifier.fillMaxWidth().height(300.dp).padding(horizontal = 16.dp, vertical = 36.dp))
+            HomeCarouselSection(navController = navController, modifier = Modifier.fillMaxWidth().height(300.dp).padding(horizontal = 16.dp, vertical = 36.dp))
 
             Spacer(modifier = Modifier.height(12.dp))
 
